@@ -37,6 +37,19 @@ new Grid({
   },
 }).render(document.getElementById("wrapper-plugins"));
 
+new Grid({
+  columns: ["Plugin", "Command", "Description"],
+  server: {
+    url: "/build/commands.json",
+    then: (data) =>
+      data.map((pkg) => [pkg.plugin, pkg.command, pkg.description]),
+  },
+  sort: true,
+  search: {
+    enabled: true,
+  },
+}).render(document.getElementById("wrapper-commands"));
+
 window.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll('[role="tab"]');
   const tabList = document.querySelector('[role="tablist"]');
