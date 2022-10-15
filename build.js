@@ -71,9 +71,9 @@ async function getCommands(plugins) {
 async function main() {
   const packageResults = await getAllPackages();
   await writeFile(join("build", "packages.json"), JSON.stringify(packageResults), "utf8");
-  const packageResults = JSON.parse(
-    await readFile(join("build", "packages.json"))
-  );
+  // const packageResults = JSON.parse(
+  //   await readFile(join("build", "packages.json"))
+  // );
   const plugins = packageResults.map((p) => p.name);
   const commands = await getCommands(plugins);
   await writeFile(
