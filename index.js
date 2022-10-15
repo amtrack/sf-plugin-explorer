@@ -42,7 +42,7 @@ new Grid({
   server: {
     url: "/build/commands.json",
     then: (data) =>
-      data.map((pkg) => [pkg.plugin, pkg.command, pkg.description]),
+      data.map((cmd) => [cmd.pluginName, cmd.id, cmd.description]),
   },
   sort: true,
   search: {
