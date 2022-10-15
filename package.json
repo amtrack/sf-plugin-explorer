@@ -1,0 +1,16 @@
+{
+  "name": "unofficial-sfdx-plugin-registry",
+  "version": "0.0.0-development",
+  "type": "module",
+  "private": true,
+  "exports": "./index.js",
+  "repository": "https://github.com/amtrack/unofficial-sfdx-plugin-registry",
+  "author": "Matthias Rolke <mr.amtrack@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "undici": "5.11.0"
+  },
+  "scripts": {
+    "build": "node build.js"
+  }
+}
