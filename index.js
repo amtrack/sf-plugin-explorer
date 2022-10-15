@@ -1,43 +1,81 @@
-import { fetch } from "undici";
+import { Grid } from "https://unpkg.com/gridjs?module";
 
-const additionalPackages = [];
-const ignoredPackages = [];
+new Grid({
+  columns: ["Name", "Description", "Author", "Version", "@salesforce/command"],
+  server: {
+    url: "/build/packages.json",
+    then: (data) =>
+      data.map((pkg) => [
+        pkg.name,
+        pkg.description,
+        pkg.author?.name,
+        pkg.version,
+        pkg.dependencies?.["@salesforce/command"],
+      ]),
+  },
+  sort: true,
+  search: {
+    enabled: true,
+  },
+}).render(document.getElementById("wrapper-plugins"));
 
-async function searchPackages(results = [], size = 250, page = 0) {
-  const from = size * page;
-  const res = await fetch(
-    `https://registry.npmjs.org/-/v1/search?text=not:deprecated+keywords:"sfdx-plugin,sfdx plugin"&size=${size}&from=${from}`
-  );
-  const data = await res.json();
-  results.push(...data.objects);
-  if (results.length < data.total) {
-    return await searchPackages(results, size, page + 1);
-  }
-  return results;
-}
+window.addEventListener("DOMContentLoaded", () => {
+  const tabs = document.querySelectorAll('[role="tab"]');
+  const tabList = document.querySelector('[role="tablist"]');
 
-async function getPackage(packageName) {
-  const res = await fetch(`https://registry.npmjs.org/${packageName}`);
-  return res.json();
-}
+  // Add a click event handler to each tab
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", changeTabs);
+  });
 
-async function getPackages(packageNames) {
-  const promises = packageNames.map((p) => getPackage(p));
-  const packages = await Promise.all(promises);
-  return packages;
-}
+  // Enable arrow navigation between tabs in the tab list
+  let tabFocus = 0;
 
-export async function getAllPackages() {
-  const packageNames = [
-    ...(await searchPackages()).map(
-      (packageResult) =>
-        packageResult.package.name + "/" + packageResult.package.version
-    ),
-    ...additionalPackages,
-  ];
-  const filteredPackageNames = packageNames.filter(
-    (p) => !ignoredPackages.includes(p)
-  );
-  const packages = await getPackages(filteredPackageNames);
-  return packages;
+  tabList.addEventListener("keydown", (e) => {
+    // Move right
+    if (e.keyCode === 39 || e.keyCode === 37) {
+      tabs[tabFocus].setAttribute("tabindex", -1);
+      if (e.keyCode === 39) {
+        tabFocus++;
+        // If we're at the end, go to the start
+        if (tabFocus >= tabs.length) {
+          tabFocus = 0;
+        }
+        // Move left
+      } else if (e.keyCode === 37) {
+        tabFocus--;
+        // If we're at the start, move to the end
+        if (tabFocus < 0) {
+          tabFocus = tabs.length - 1;
+        }
+      }
+
+      tabs[tabFocus].setAttribute("tabindex", 0);
+      tabs[tabFocus].focus();
+    }
+  });
+});
+
+function changeTabs(e) {
+  const target = e.target;
+  const parent = target.parentNode;
+  const grandparent = parent.parentNode;
+
+  // Remove all current selected tabs
+  parent
+    .querySelectorAll('[aria-selected="true"]')
+    .forEach((t) => t.setAttribute("aria-selected", false));
+
+  // Set this tab as selected
+  target.setAttribute("aria-selected", true);
+
+  // Hide all tab panels
+  grandparent
+    .querySelectorAll('[role="tabpanel"]')
+    .forEach((p) => p.setAttribute("hidden", true));
+
+  // Show the selected panel
+  grandparent.parentNode
+    .querySelector(`#${target.getAttribute("aria-controls")}`)
+    .removeAttribute("hidden");
 }
