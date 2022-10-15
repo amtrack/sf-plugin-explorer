@@ -1,7 +1,24 @@
 import { Grid } from "https://unpkg.com/gridjs?module";
 
 new Grid({
-  columns: ["Name", "Description", "Author", "Version", "@salesforce/command"],
+  columns: [
+    "Name",
+    "Description",
+    "Author",
+    {
+      name: "Version",
+      sort: {
+        compare: compareSemanticVersions,
+      },
+    },
+    "Dependencies",
+    {
+      name: "@salesforce/command",
+      sort: {
+        compare: compareSemanticVersions,
+      },
+    },
+  ],
   server: {
     url: "/build/packages.json",
     then: (data) =>
@@ -10,6 +27,7 @@ new Grid({
         pkg.description,
         pkg.author?.name,
         pkg.version,
+        Object.keys(pkg.dependencies || []).length,
         pkg.dependencies?.["@salesforce/command"],
       ]),
   },
@@ -78,4 +96,13 @@ function changeTabs(e) {
   grandparent.parentNode
     .querySelector(`#${target.getAttribute("aria-controls")}`)
     .removeAttribute("hidden");
+}
+
+function compareSemanticVersions(a = "0.0.0", b = "0.0.0") {
+  a = a.replace("^", "");
+  b = b.replace("^", "");
+  return a.localeCompare(b, undefined, {
+    numeric: true,
+    sensitivity: "base",
+  });
 }
