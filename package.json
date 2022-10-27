@@ -11,6 +11,6 @@
     "undici": "5.11.0"
   },
   "scripts": {
-    "build": "node build.js"
+    "build": "./scripts/get-plugins.js && ./scripts/get-commands.js"
   }
 }
