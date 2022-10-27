@@ -22,7 +22,7 @@ async function searchPackages(results = [], size = 250, page = 0) {
 
 async function getPackage(packageName) {
   const res = await fetch(`https://registry.npmjs.org/${packageName}`);
-  return res.json();
+  return await res.json();
 }
 
 async function getPackages(packageNames) {
