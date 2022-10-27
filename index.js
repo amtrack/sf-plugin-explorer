@@ -1,11 +1,14 @@
 import { Grid } from "https://unpkg.com/gridjs?module";
 
-new Grid({
+const pluginsGrid = new Grid({
   columns: [
     "Name",
     {
       name: "Stars",
       sort: {
+        // state: {
+        //   direction: -1,
+        // },
         compare: compareWithUndefined,
       },
     },
@@ -42,9 +45,10 @@ new Grid({
   search: {
     enabled: true,
   },
-}).render(document.getElementById("wrapper-plugins"));
+});
+pluginsGrid.render(document.getElementById("wrapper-plugins"));
 
-new Grid({
+const commandsGrid = new Grid({
   columns: ["Plugin", "Command", "Description"],
   server: {
     url: "/build/commands.json",
@@ -55,7 +59,8 @@ new Grid({
   search: {
     enabled: true,
   },
-}).render(document.getElementById("wrapper-commands"));
+});
+commandsGrid.render(document.getElementById("wrapper-commands"));
 
 window.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll('[role="tab"]');

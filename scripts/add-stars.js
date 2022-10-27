@@ -49,12 +49,30 @@ async function addStarsToPackages(packages) {
   return result;
 }
 
+function compareWithUndefined(a, b) {
+  if (a === b) {
+    return 0;
+  }
+  if (a === undefined) {
+    return -1;
+  }
+  if (b === undefined) {
+    return 1;
+  }
+  return a - b;
+}
+
 async function main() {
   const packages = JSON.parse(await readFile(join("build", "packages.json")));
   const result = await addStarsToPackages(packages);
+  const sorted = result.sort(
+    (a, b) =>
+      -1 *
+      compareWithUndefined(a?.gitHubStargazersCount, b?.gitHubStargazersCount)
+  );
   await writeFile(
     join("build", "packages.json"),
-    JSON.stringify(result),
+    JSON.stringify(sorted),
     "utf8"
   );
 }
