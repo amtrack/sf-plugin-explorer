@@ -3,5 +3,5 @@
 ## Development
 
 ```
-npx -y serve
+yarn develop
 ```

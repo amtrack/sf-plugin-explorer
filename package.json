@@ -8,9 +8,11 @@
   "author": "Matthias Rolke <mr.amtrack@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "serve": "14.0.1",
     "undici": "5.11.0"
   },
   "scripts": {
-    "build": "./scripts/get-plugins.js && ./scripts/get-commands.js"
+    "build": "./scripts/get-plugins.js && ./scripts/get-commands.js",
+    "develop": "serve"
   }
 }
