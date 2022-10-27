@@ -3,7 +3,12 @@ import { Grid } from "https://unpkg.com/gridjs?module";
 new Grid({
   columns: [
     "Name",
-    "Stars",
+    {
+      name: "Stars",
+      sort: {
+        compare: compareWithUndefined,
+      },
+    },
     "Description",
     "Author",
     {
@@ -120,4 +125,17 @@ function compareSemanticVersions(a = "0.0.0", b = "0.0.0") {
     numeric: true,
     sensitivity: "base",
   });
+}
+
+function compareWithUndefined(a, b) {
+  if (a === b) {
+    return 0;
+  }
+  if (a === undefined) {
+    return -1;
+  }
+  if (b === undefined) {
+    return 1;
+  }
+  return a - b;
 }
