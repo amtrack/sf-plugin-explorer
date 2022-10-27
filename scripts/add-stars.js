@@ -9,9 +9,10 @@ function getGitHubSlug(repositoryUrl) {
     return undefined;
   }
   try {
-    const url = new URL(url);
+    const url = new URL(repositoryUrl);
     if (url.hostname === "github.com") {
-      return url.pathname.remove(/^\//).remove(/\.git$/);
+      const slug = url.pathname.replace(/^\//, "").replace(/\.git$/, "");
+      return slug;
     }
   } catch (e) {
     return undefined;
@@ -19,37 +20,38 @@ function getGitHubSlug(repositoryUrl) {
 }
 
 async function fetchStars(slug) {
-  const res = await fetch(`https://api.github.com/repos/${slug}`);
+  const res = await fetch(`https://api.github.com/repos/${slug}`, {
+    headers: {
+      Accept: "application/vnd.github+json",
+      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+    },
+  });
   const json = await res.json();
   return json.stargazers_count;
 }
 
-async function addStars(packages) {
-  const packagesIncludingGithubSlug = packages.map((pkg) => {
-    const gitHubSlug = getGitHubSlug(pkg.repository?.url);
-    return {
-      ...pkg,
-      ...(gitHubSlug && { gitHubSlug }),
-    };
-  });
-  const gitHubStars = await Promise.all(
-    packagesIncludingGithubSlug
-      .filter((pkg) => pkg.gitHubSlug !== undefined)
-      .map((pkg) => fetchStars(pkg))
+async function addStarsToPackage(pkg) {
+  const gitHubSlug = getGitHubSlug(pkg.repository?.url);
+  if (gitHubSlug !== undefined) {
+    pkg.gitHubSlug = gitHubSlug;
+    const stargazersCount = await fetchStars(gitHubSlug);
+    if (stargazersCount !== undefined) {
+      pkg.gitHubStargazersCount = stargazersCount;
+    }
+  }
+  return pkg;
+}
+
+async function addStarsToPackages(packages) {
+  const result = await Promise.all(
+    packages.map((pkg) => addStarsToPackage(pkg))
   );
-  const result = packagesIncludingGithubSlug.map((pkg) => {
-    const stargazersCount = gitHubStars[pkg?.gitHubSlug];
-    return {
-      ...pkg,
-      ...(stargazersCount !== undefined && { stargazersCount }),
-    };
-  });
   return result;
 }
 
 async function main() {
   const packages = JSON.parse(await readFile(join("build", "packages.json")));
-  const result = await addStars(packages);
+  const result = await addStarsToPackages(packages);
   await writeFile(
     join("build", "packages.json"),
     JSON.stringify(result),

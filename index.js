@@ -3,6 +3,7 @@ import { Grid } from "https://unpkg.com/gridjs?module";
 new Grid({
   columns: [
     "Name",
+    "Stars",
     "Description",
     "Author",
     {
@@ -24,6 +25,7 @@ new Grid({
     then: (data) =>
       data.map((pkg) => [
         pkg.name,
+        pkg.gitHubStargazersCount,
         pkg.description,
         pkg.author?.name,
         pkg.version,
