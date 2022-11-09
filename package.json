@@ -8,7 +8,7 @@
   "author": "Matthias Rolke <mr.amtrack@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "serve": "14.1.0",
+    "serve": "14.1.1",
     "undici": "5.12.0"
   },
   "scripts": {
