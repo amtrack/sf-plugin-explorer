@@ -2,7 +2,6 @@
 
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { fetch } from "undici";
 
 const additionalPackages = [];
 const ignoredPackages = [];

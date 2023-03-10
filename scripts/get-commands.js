@@ -2,7 +2,6 @@
 
 import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { fetch } from "undici";
 
 async function getManifest(plugin) {
   let result;
