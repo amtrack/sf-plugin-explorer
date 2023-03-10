@@ -8,7 +8,7 @@
   "author": "Matthias Rolke <mr.amtrack@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "serve": "14.1.1"
+    "serve": "14.2.0"
   },
   "scripts": {
     "build": "./scripts/get-plugins.js && ./scripts/add-stars.js && ./scripts/get-commands.js",
