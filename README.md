@@ -5,6 +5,8 @@
 ## Development
 
 ```
+yarn install
 export GITHUB_TOKEN=xxx
+yarn build
 yarn develop
 ```

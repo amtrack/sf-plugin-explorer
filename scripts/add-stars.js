@@ -2,6 +2,7 @@
 
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import pLimit from "p-limit";
 
 function getGitHubSlug(repositoryUrl) {
   if (repositoryUrl === undefined) {
@@ -42,8 +43,9 @@ async function addStarsToPackage(pkg) {
 }
 
 async function addStarsToPackages(packages) {
+  const limit = pLimit(10);
   const result = await Promise.all(
-    packages.map((pkg) => addStarsToPackage(pkg))
+    packages.map((pkg) => limit(() => addStarsToPackage(pkg)))
   );
   return result;
 }

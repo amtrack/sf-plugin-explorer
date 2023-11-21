@@ -2,6 +2,7 @@
 
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import pLimit from "p-limit";
 
 const additionalPackages = [];
 const ignoredPackages = [];
@@ -25,7 +26,8 @@ async function getPackage(packageName) {
 }
 
 async function getPackages(packageNames) {
-  const promises = packageNames.map((p) => getPackage(p));
+  const limit = pLimit(50);
+  const promises = packageNames.map((p) => limit(() => getPackage(p)));
   const packages = await Promise.all(promises);
   return packages;
 }

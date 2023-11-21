@@ -2,6 +2,7 @@
 
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import pLimit from "p-limit";
 
 async function getManifest(plugin) {
   let result;
@@ -18,7 +19,8 @@ async function getManifest(plugin) {
 }
 
 async function getCommands(plugins) {
-  const promises = plugins.map((plugin) => getManifest(plugin));
+  const limit = pLimit(50);
+  const promises = plugins.map((plugin) => limit(() => getManifest(plugin)));
   const manifests = await Promise.all(promises);
   const commands = manifests
     .map((manifest) => Object.values(manifest?.commands || {}))
