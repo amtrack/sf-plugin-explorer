@@ -41,7 +41,7 @@ const pluginsGrid = new Grid({
     },
   ],
   server: {
-    url: "/data/packages.min.json",
+    url: "data/packages.min.json",
     then: (data) =>
       data.map((pkg) => [
         pkg.name,
@@ -64,7 +64,7 @@ pluginsGrid.render(document.getElementById("wrapper-plugins"));
 const commandsGrid = new Grid({
   columns: ["Plugin", "Command", "Description"],
   server: {
-    url: "/data/commands.min.json",
+    url: "data/commands.min.json",
     then: (data) =>
       data.map((cmd) => [cmd.pluginName, cmd.id, cmd.description]),
   },
