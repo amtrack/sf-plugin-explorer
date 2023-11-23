@@ -12,7 +12,8 @@ const pluginsGrid = new Grid({
           : row.cells[0].data,
     },
     {
-      name: "Stars",
+      name: "★",
+      width: "80px",
       sort: {
         // state: {
         //   direction: -1,
