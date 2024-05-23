@@ -10,12 +10,10 @@ const packageFields = [
   "author",
   "version",
   "dependencies",
-  "homepage",
-  "repository",
-  "bugs",
+  "link",
 ];
 
-const commandFields = ["pluginName", "id", "description"];
+const commandFields = ["pluginName", "id", "description", "link"];
 
 async function main() {
   const packages = JSON.parse(

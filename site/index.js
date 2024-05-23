@@ -51,7 +51,7 @@ const pluginsGrid = new Grid({
         pkg.version,
         Object.keys(pkg.dependencies || []).length,
         getPluginLibrary(pkg.dependencies),
-        getLink(pkg),
+        pkg.link,
       ]),
   },
   sort: true,
@@ -63,11 +63,27 @@ const pluginsGrid = new Grid({
 pluginsGrid.render(document.getElementById("wrapper-plugins"));
 
 const commandsGrid = new Grid({
-  columns: ["Plugin", "Command", "Description"],
+  columns: [
+    {
+      name: "Plugin",
+      formatter: (_, row) =>
+        row.cells[3]?.data
+          ? html(
+              `<a href="${row.cells[3]?.data}" target="_blank">${row.cells[0].data}</a>`
+            )
+          : row.cells[0].data,
+    },
+    "Command",
+    "Description",
+    {
+      name: "Link",
+      hidden: true,
+    },
+  ],
   server: {
     url: "data/commands.min.json",
     then: (data) =>
-      data.map((cmd) => [cmd.pluginName, cmd.id, cmd.description]),
+      data.map((cmd) => [cmd.pluginName, cmd.id, cmd.description, cmd.link]),
   },
   sort: true,
   search: {
@@ -168,17 +184,4 @@ function getPluginLibrary(dependencies) {
     return `@salesforce/command@${dependencies?.["@salesforce/command"]}`;
   }
   return "unknown";
-}
-
-function getLink(pkg) {
-  if (pkg?.homepage) {
-    return pkg?.homepage;
-  }
-  if (pkg?.repository?.url) {
-    return pkg?.repository?.url;
-  }
-  if (pkg?.bugs?.url) {
-    return pkg?.bugs?.url;
-  }
-  return `https://npmjs.com/package/${pkg.name}`;
 }

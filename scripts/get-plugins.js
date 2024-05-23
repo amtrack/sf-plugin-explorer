@@ -44,7 +44,10 @@ export async function getAllPackages() {
     (p) => !ignoredPackages.includes(p)
   );
   const packages = await getPackages(filteredPackageNames);
-  return packages;
+  return packages.map((pkg) => ({
+    ...pkg,
+    link: getLink(pkg),
+  }));
 }
 
 async function main() {
@@ -55,6 +58,19 @@ async function main() {
     JSON.stringify(packageResults),
     "utf8"
   );
+}
+
+function getLink(pkg) {
+  if (pkg?.homepage) {
+    return pkg?.homepage;
+  }
+  if (pkg?.repository?.url) {
+    return pkg?.repository?.url;
+  }
+  if (pkg?.bugs?.url) {
+    return pkg?.bugs?.url;
+  }
+  return `https://npmjs.com/package/${pkg.name}`;
 }
 
 main().catch((e) => {
