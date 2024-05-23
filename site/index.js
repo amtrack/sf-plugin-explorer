@@ -15,10 +15,9 @@ const pluginsGrid = new Grid({
       name: "★",
       width: "80px",
       sort: {
-        // state: {
-        //   direction: -1,
-        // },
         compare: compareWithUndefined,
+        // https://github.com/grid-js/gridjs/pull/1366
+        direction: -1,
       },
     },
     "Description",
