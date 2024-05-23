@@ -59,6 +59,7 @@ const pluginsGrid = new Grid({
   search: {
     enabled: true,
   },
+  pagination: {},
 });
 pluginsGrid.render(document.getElementById("wrapper-plugins"));
 
@@ -73,6 +74,7 @@ const commandsGrid = new Grid({
   search: {
     enabled: true,
   },
+  pagination: {},
 });
 commandsGrid.render(document.getElementById("wrapper-commands"));
 
