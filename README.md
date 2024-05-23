@@ -6,7 +6,6 @@
 
 ```
 yarn install
-export GITHUB_TOKEN=xxx
-yarn build
+GITHUB_TOKEN="$(gh auth token)" yarn build
 yarn develop
 ```
