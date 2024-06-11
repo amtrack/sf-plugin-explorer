@@ -130,6 +130,14 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+try {
+  const response = await fetch("data/meta.json");
+  const data = await response.json();
+  document.querySelector("div.meta time").innerHTML = data.lastUpdated;
+  document.querySelector("div.meta a").href = data.source;
+  document.querySelector("div.meta a").innerHTML = data.source;
+} catch (_) {}
+
 function changeTabs(e) {
   const target = e.target;
   const parent = target.parentNode;
