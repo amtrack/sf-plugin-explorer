@@ -1,6 +1,10 @@
-# unofficial-sfdx-plugin-registry
+# sf-plugin-explorer
 
 > discover sfdx/sf plugins and their commands
+
+https://amtrack.github.io/sf-plugin-explorer
+
+This website indexes sf plugins based on npmjs.com and GitHub.
 
 ## Development
 
