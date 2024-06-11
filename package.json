@@ -1,11 +1,11 @@
 {
-  "name": "unofficial-sfdx-plugin-registry",
+  "name": "sf-plugin-explorer",
   "version": "0.0.0-development",
   "private": true,
   "description": "discover sfdx/sf plugins and their commands",
   "type": "module",
   "exports": "./index.js",
-  "repository": "https://github.com/amtrack/unofficial-sfdx-plugin-registry",
+  "repository": "https://github.com/amtrack/sf-plugin-explorer",
   "author": "Matthias Rolke <mr.amtrack@gmail.com>",
   "license": "MIT",
   "devDependencies": {
