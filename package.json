@@ -10,7 +10,7 @@
   "license": "MIT",
   "devDependencies": {
     "p-limit": "5.0.0",
-    "serve": "14.2.1"
+    "serve": "14.2.3"
   },
   "scripts": {
     "build": "./scripts/get-plugins.js && ./scripts/add-stars.js && ./scripts/get-commands.js && ./scripts/meta.js && ./scripts/minify.js",
