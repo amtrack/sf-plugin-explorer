@@ -13,7 +13,7 @@
     "serve": "14.2.3"
   },
   "scripts": {
-    "build": "./scripts/get-plugins.js && ./scripts/add-stars.js && ./scripts/get-commands.js && ./scripts/meta.js && ./scripts/minify.js",
+    "build": "./scripts/get-plugins.js && ./scripts/add-github-repo-infos.js && ./scripts/get-commands.js && ./scripts/meta.js && ./scripts/minify.js",
     "develop": "serve ./site",
     "start": "serve ./site"
   }

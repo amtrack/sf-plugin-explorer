@@ -4,7 +4,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import pLimit from "p-limit";
 
-async function getManifest(plugin) {
+async function getOclifManifest(plugin) {
   const urls = [
     `https://unpkg.com/${plugin.name}/.oclif.manifest.json`,
     `https://unpkg.com/${plugin.name}/oclif.manifest.json`,
@@ -25,7 +25,9 @@ async function getManifest(plugin) {
 
 async function getCommands(plugins) {
   const limit = pLimit(50);
-  const promises = plugins.map((plugin) => limit(() => getManifest(plugin)));
+  const promises = plugins.map((plugin) =>
+    limit(() => getOclifManifest(plugin))
+  );
   const manifests = await Promise.all(promises);
   const commands = manifests
     .map((manifest) =>
@@ -41,7 +43,9 @@ async function getCommands(plugins) {
 async function main() {
   await mkdir(join("site", "data"), { recursive: true });
   const packageResults = JSON.parse(
-    await readFile(join("site", "data", "packages.json"))
+    await readFile(
+      join("site", "data", "packages-with-dependencies-and-github.json")
+    )
   );
   const commands = await getCommands(packageResults);
   await writeFile(
@@ -52,6 +56,6 @@ async function main() {
 }
 
 main().catch((e) => {
-  console.error(e.message);
+  console.error(e);
   process.exitCode = 1;
 });

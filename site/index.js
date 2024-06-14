@@ -5,11 +5,15 @@ const pluginsGrid = new Grid({
     {
       name: "Name",
       formatter: (_, row) =>
-        row.cells[7]?.data
+        row.cells[1]?.data
           ? html(
-              `<a href="${row.cells[7]?.data}" target="_blank">${row.cells[0].data}</a>`
+              `<a href="${row.cells[1]?.data}" target="_blank">${row.cells[0].data}</a>`
             )
           : row.cells[0].data,
+    },
+    {
+      name: "NpmLink",
+      hidden: true,
     },
     {
       name: "★",
@@ -19,6 +23,16 @@ const pluginsGrid = new Grid({
         // https://github.com/grid-js/gridjs/pull/1366
         direction: -1,
       },
+      formatter: (_, row) =>
+        row.cells[3]?.data
+          ? html(
+              `<a href="${row.cells[3]?.data}" target="_blank">${row.cells[2].data}</a>`
+            )
+          : row.cells[2].data,
+    },
+    {
+      name: "GitHubLink",
+      hidden: true,
     },
     "Description",
     "Author",
@@ -35,23 +49,20 @@ const pluginsGrid = new Grid({
         compare: compareSemanticVersions,
       },
     },
-    {
-      name: "Link",
-      hidden: true,
-    },
   ],
   server: {
     url: "data/packages.min.json",
     then: (data) =>
       data.map((pkg) => [
         pkg.name,
+        pkg.npmLink,
         pkg.gitHubStargazersCount,
+        pkg.gitHubLink,
         pkg.description,
-        pkg.author?.name,
+        pkg.authorName,
         pkg.version,
-        Object.keys(pkg.dependencies || []).length,
-        getPluginLibrary(pkg.dependencies),
-        pkg.link,
+        pkg.dependenciesCount,
+        pkg.pluginLibrary,
       ]),
   },
   sort: true,
@@ -182,14 +193,4 @@ function compareWithUndefined(a, b) {
     return 1;
   }
   return a - b;
-}
-
-function getPluginLibrary(dependencies) {
-  if (dependencies?.["@salesforce/sf-plugins-core"]) {
-    return `@salesforce/sf-plugins-core@${dependencies?.["@salesforce/sf-plugins-core"]}`;
-  }
-  if (dependencies?.["@salesforce/command"]) {
-    return `@salesforce/command@${dependencies?.["@salesforce/command"]}`;
-  }
-  return "unknown";
 }
