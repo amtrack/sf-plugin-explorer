@@ -34,6 +34,11 @@ const pluginsGrid = new Grid({
       name: "GitHubLink",
       hidden: true,
     },
+    {
+      name: "NPM score",
+      width: "140px",
+      formatter: (cell) => cell.toFixed(3),
+    },
     "Description",
     "Author",
     {
@@ -58,6 +63,7 @@ const pluginsGrid = new Grid({
         pkg.npmLink,
         pkg.gitHubStargazersCount,
         pkg.gitHubLink,
+        pkg.npmScoreFinal,
         pkg.description,
         pkg.authorName,
         pkg.version,

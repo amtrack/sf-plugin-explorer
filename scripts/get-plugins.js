@@ -20,6 +20,7 @@ async function searchNpmPackages(query, results = [], size = 250, page = 0) {
         authorName: object.package.author?.name,
         npmLink: object.package.links.npm,
         gitHubLink: object.package.links.repository,
+        npmScoreFinal: object.score.final,
       };
     })
   );
