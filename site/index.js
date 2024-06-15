@@ -76,6 +76,11 @@ const pluginsGrid = new Grid({
     enabled: true,
   },
   pagination: {},
+  language: {
+    search: {
+      placeholder: "Search plugin name or description...",
+    },
+  },
 });
 pluginsGrid.render(document.getElementById("wrapper-plugins"));
 
@@ -107,6 +112,11 @@ const commandsGrid = new Grid({
     enabled: true,
   },
   pagination: {},
+  language: {
+    search: {
+      placeholder: "Search command or description...",
+    },
+  },
 });
 commandsGrid.render(document.getElementById("wrapper-commands"));
 
