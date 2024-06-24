@@ -1,13 +1,37 @@
-import { html, Grid } from "https://unpkg.com/gridjs?module";
+import { html, Grid } from "https://unpkg.com/gridjs@6.2.0?module";
 
+const defaultGridSettings = {
+  sort: true,
+  autoWidth: false,
+  search: {
+    enabled: true,
+  },
+  pagination: {
+    limit: 20,
+  },
+  className: {
+    container: "slds-p-horizontal_small",
+    table: "slds-table slds-table_bordered slds-table_fixed-layout",
+    td: "slds-truncate",
+    pagination: "slds-button-group",
+    paginationButton: "slds-button slds-button_neutral",
+    paginationButtonCurrent: "slds-is-selected",
+    search: "slds-p-bottom_small",
+    footer: "slds-p-vertical_small",
+  },
+};
+
+const formatWithTitle = (cell) => html(`<div title="${cell}">${cell}</div>`);
 const pluginsGrid = new Grid({
+  ...defaultGridSettings,
   columns: [
     {
       name: "Name",
+      width: "200px",
       formatter: (_, row) =>
         row.cells[1]?.data
           ? html(
-              `<a href="${row.cells[1]?.data}" target="_blank">${row.cells[0].data}</a>`
+              `<a href="${row.cells[1]?.data}" title="${row.cells[0]?.data}" target="_blank">${row.cells[0].data}</a>`
             )
           : row.cells[0].data,
     },
@@ -16,8 +40,8 @@ const pluginsGrid = new Grid({
       hidden: true,
     },
     {
-      name: "★",
-      width: "80px",
+      name: "# ★",
+      width: "40px",
       sort: {
         compare: compareWithUndefined,
         // https://github.com/grid-js/gridjs/pull/1366
@@ -26,7 +50,7 @@ const pluginsGrid = new Grid({
       formatter: (_, row) =>
         row.cells[3]?.data
           ? html(
-              `<a href="${row.cells[3]?.data}" target="_blank">${row.cells[2].data}</a>`
+              `<a href="${row.cells[3]?.data}" title="${row.cells[2].data}" target="_blank">${row.cells[2].data}</a>`
             )
           : row.cells[2].data,
     },
@@ -36,20 +60,33 @@ const pluginsGrid = new Grid({
     },
     {
       name: "NPM score",
-      width: "140px",
+      width: "80px",
       formatter: (cell) => cell.toFixed(3),
     },
-    "Description",
-    "Author",
+    {
+      name: "Description",
+      formatter: formatWithTitle,
+    },
+    {
+      name: "Author",
+      width: "120px",
+      formatter: formatWithTitle,
+    },
     {
       name: "Version",
+      width: "70px",
       sort: {
         compare: compareSemanticVersions,
       },
     },
-    "Dependencies",
+    {
+      name: "# Deps",
+      width: "60px",
+    },
     {
       name: "Library",
+      width: "245px",
+      formatter: formatWithTitle,
       sort: {
         compare: compareSemanticVersions,
       },
@@ -71,11 +108,6 @@ const pluginsGrid = new Grid({
         pkg.pluginLibrary,
       ]),
   },
-  sort: true,
-  search: {
-    enabled: true,
-  },
-  pagination: {},
   language: {
     search: {
       placeholder: "Search plugin name or description...",
@@ -85,18 +117,27 @@ const pluginsGrid = new Grid({
 pluginsGrid.render(document.getElementById("wrapper-plugins"));
 
 const commandsGrid = new Grid({
+  ...defaultGridSettings,
   columns: [
     {
       name: "Plugin",
+      width: "200px",
       formatter: (_, row) =>
         row.cells[3]?.data
           ? html(
-              `<a href="${row.cells[3]?.data}" target="_blank">${row.cells[0].data}</a>`
+              `<a href="${row.cells[3]?.data}" title="${row.cells[0]?.data}" target="_blank">${row.cells[0].data}</a>`
             )
           : row.cells[0].data,
     },
-    "Command",
-    "Description",
+    {
+      name: "Command",
+      width: "255px",
+      formatter: formatWithTitle,
+    },
+    {
+      name: "Description",
+      formatter: formatWithTitle,
+    },
     {
       name: "Link",
       hidden: true,
@@ -107,57 +148,14 @@ const commandsGrid = new Grid({
     then: (data) =>
       data.map((cmd) => [cmd.pluginName, cmd.id, cmd.description, cmd.link]),
   },
-  sort: true,
-  search: {
-    enabled: true,
-  },
-  pagination: {},
   language: {
     search: {
       placeholder: "Search command or description...",
     },
   },
 });
+
 commandsGrid.render(document.getElementById("wrapper-commands"));
-
-window.addEventListener("DOMContentLoaded", () => {
-  const tabs = document.querySelectorAll('[role="tab"]');
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", changeTabs);
-  });
-});
-
-try {
-  const response = await fetch("data/meta.json");
-  const data = await response.json();
-  document.querySelector("div.meta time").innerHTML = data.lastUpdated;
-  document.querySelector("div.meta a").href = data.source;
-  document.querySelector("div.meta a").innerHTML = data.source;
-} catch (_) {}
-
-function changeTabs(e) {
-  const target = e.target;
-  const parent = target.parentNode;
-  const grandparent = parent.parentNode;
-
-  // Remove all current selected tabs
-  parent
-    .querySelectorAll('[aria-selected="true"]')
-    .forEach((t) => t.setAttribute("aria-selected", false));
-
-  // Set this tab as selected
-  target.setAttribute("aria-selected", true);
-
-  // Hide all tab panels
-  grandparent
-    .querySelectorAll('[role="tabpanel"]')
-    .forEach((p) => p.setAttribute("hidden", true));
-
-  // Show the selected panel
-  grandparent.parentNode
-    .querySelector(`#${target.getAttribute("aria-controls")}`)
-    .removeAttribute("hidden");
-}
 
 function compareSemanticVersions(a = "0.0.0", b = "0.0.0") {
   a = a.replace("^", "");
@@ -179,4 +177,45 @@ function compareWithUndefined(a, b) {
     return 1;
   }
   return a - b;
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".gridjs-search-input").forEach((input) => {
+    input.classList.add("slds-input");
+  });
+  const tabs = document.querySelectorAll('[role="tab"]');
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", changeTabs);
+  });
+});
+
+try {
+  const response = await fetch("data/meta.json");
+  const data = await response.json();
+  document.querySelector(".meta time").innerHTML = data.lastUpdated;
+} catch (_) {}
+
+function changeTabs(e) {
+  const tab = e.target.closest("[aria-controls]");
+  const tabList = tab.closest("[role='tablist']");
+  const tabPanelId = tab.getAttribute("aria-controls");
+  const tabPanel = document.getElementById(tabPanelId);
+
+  // Remove all current selected tabs
+  tabList.querySelectorAll('[aria-selected="true"]').forEach((tab) => {
+    tab.setAttribute("aria-selected", false);
+    tab.classList.remove("slds-is-active");
+  });
+
+  // Set this tab as selected
+  tab.setAttribute("aria-selected", true);
+  tab.classList.add("slds-is-active");
+
+  // Hide all tab panels
+  document.querySelectorAll('[role="tabpanel"]').forEach((p) => {
+    p.setAttribute("hidden", true);
+  });
+
+  // Show the selected panel
+  tabPanel.removeAttribute("hidden");
 }
