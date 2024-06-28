@@ -13,7 +13,7 @@ customElements.define(
       class="slds-accordion__summary-action-icon slds-button__icon slds-button__icon_left"
       aria-hidden="true"
       >
-      <use xlink:href="/symbols.svg#switch"></use></svg
+      <use xlink:href="./symbols.svg#switch"></use></svg
       >` + summary.innerHTML;
       summary.classList.add("slds-accordion__summary-heading");
     }
