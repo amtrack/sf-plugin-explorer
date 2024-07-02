@@ -40,7 +40,7 @@ const pluginsGrid = new Grid({
       hidden: true,
     },
     {
-      name: "# ★",
+      name: html(`<span title="GitHub Stars"># ★</span>`),
       width: "40px",
       sort: {
         compare: compareWithUndefined,
@@ -80,12 +80,14 @@ const pluginsGrid = new Grid({
       },
     },
     {
-      name: "Last Release",
+      name: html(
+        `<span title="Date of last released version">Last Release</span>`
+      ),
       width: "95px",
       formatter: (cell) => cell?.substring(0, 10),
     },
     {
-      name: "# Deps",
+      name: html(`<span title="Number of package dependencies"># Deps</span>`),
       width: "60px",
     },
     {
