@@ -15,8 +15,9 @@
   },
   "scripts": {
     "build:vendor": "bash scripts/build.sh",
-    "build": "./scripts/get-plugins.js && ./scripts/add-github-repo-infos.js && ./scripts/get-commands.js && ./scripts/meta.js && ./scripts/minify.js",
-    "develop": "serve ./site",
+    "crawl": "./scripts/crawl.sh",
+    "build": "./scripts/aggregate.js",
+    "develop": "yarn run build && serve ./site",
     "start": "serve ./site"
   }
 }

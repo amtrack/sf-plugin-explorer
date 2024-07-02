@@ -100,7 +100,7 @@ const pluginsGrid = new Grid({
     },
   ],
   server: {
-    url: "data/packages.min.json",
+    url: "data/plugins.min.json",
     then: (data) =>
       data.map((pkg) => [
         pkg.name,

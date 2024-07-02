@@ -10,6 +10,6 @@ This website indexes sf plugins based on npmjs.com and GitHub.
 
 ```
 yarn install
-GITHUB_TOKEN="$(gh auth token)" yarn build
+GITHUB_TOKEN="$(gh auth token)" yarn run crawl
 yarn develop
 ```

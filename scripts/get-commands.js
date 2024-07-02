@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import pLimit from "p-limit";
 
@@ -45,15 +45,12 @@ async function getCommands(plugins) {
 }
 
 async function main() {
-  await mkdir(join("site", "data"), { recursive: true });
   const packageResults = JSON.parse(
-    await readFile(
-      join("site", "data", "packages-with-dependencies-and-github.json")
-    )
+    await readFile(join(".tmp", "packages.json"))
   );
   const commands = await getCommands(packageResults);
   await writeFile(
-    join("site", "data", "commands.json"),
+    join(".tmp", "commands.json"),
     JSON.stringify(commands),
     "utf8"
   );

@@ -20,7 +20,7 @@ export const minPluginFields = [
 
 export const minCommandFields = ["pluginName", "id", "description", "link"];
 
-const excludeRules = [
+export const excludeRules = [
   {
     shouldExcludePackage: (pkg) => pkg.name === "sfdx-falcon-template",
     reason:
@@ -35,38 +35,3 @@ const excludeRules = [
     reason: "the GitHub repo is a fork",
   },
 ];
-
-function compareWithUndefined(a, b) {
-  if (a === b) {
-    return 0;
-  }
-  if (a === undefined) {
-    return -1;
-  }
-  if (b === undefined) {
-    return 1;
-  }
-  return a - b;
-}
-
-export function applyConfig(packages) {
-  return packages
-    .filter((pkg) => {
-      let keep = true;
-      for (const excludeRule of excludeRules) {
-        if (excludeRule.shouldExcludePackage(pkg)) {
-          console.error(
-            `ignoring package "${pkg.name}" because of "${excludeRule.reason}"`
-          );
-          keep = false;
-          break;
-        }
-      }
-      return keep;
-    })
-    .sort(
-      (a, b) =>
-        -1 *
-        compareWithUndefined(a?.gitHubStargazersCount, b?.gitHubStargazersCount)
-    );
-}
