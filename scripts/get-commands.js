@@ -26,23 +26,22 @@ async function getOclifManifest(plugin) {
 async function getCommands(plugins) {
   const limit = pLimit(50);
   const promises = plugins.map((plugin) =>
-    limit(() => getOclifManifest(plugin))
+    limit(async () => {
+      const manifest = await getOclifManifest(plugin);
+      if (manifest?.commands) {
+        return Object.values(manifest.commands)
+          .filter((cmd) => !cmd.hidden)
+          .map((cmd) => ({
+            ...cmd,
+            description: cmd.summary ?? cmd.description,
+            link: plugin.npmLink,
+          }));
+      }
+      return [];
+    })
   );
-  const manifests = await Promise.all(promises);
-  const commands = manifests
-    .map((manifest) =>
-      (manifest?.commands ? Object.values(manifest.commands) : []).map(
-        (cmd) => ({
-          ...cmd,
-          description: cmd.summary ?? cmd.description,
-          link: manifest.link,
-        })
-      )
-    )
-    .filter(Boolean)
-    .flat()
-    .filter((cmd) => !cmd.hidden);
-  return commands;
+  const allCommands = (await Promise.all(promises)).flat().filter(Boolean);
+  return allCommands;
 }
 
 async function main() {
