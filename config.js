@@ -9,7 +9,7 @@ export const minPluginFields = [
   "npmLink",
   "gitHubStargazersCount",
   "gitHubLink",
-  "npmScoreFinal",
+  "npmDownloads",
   "description",
   "authorName",
   "version",

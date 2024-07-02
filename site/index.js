@@ -59,9 +59,8 @@ const pluginsGrid = new Grid({
       hidden: true,
     },
     {
-      name: "NPM score",
+      name: html(`<span title="Weekly NPM downloads"># ⬇</span>`),
       width: "80px",
-      formatter: (cell) => cell.toFixed(3),
     },
     {
       name: "Description",
@@ -107,7 +106,7 @@ const pluginsGrid = new Grid({
         pkg.npmLink,
         pkg.gitHubStargazersCount,
         pkg.gitHubLink,
-        pkg.npmScoreFinal,
+        pkg.npmDownloads,
         pkg.description,
         pkg.authorName,
         pkg.version,

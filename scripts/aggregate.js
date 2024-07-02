@@ -18,11 +18,15 @@ async function buildPlugins() {
   const dependencies = JSON.parse(
     await readFile(join(".tmp", "package-dependencies.json"))
   );
+  const downloads = JSON.parse(
+    await readFile(join(".tmp", "npm-downloads.json"))
+  );
   const repos = JSON.parse(await readFile(join(".tmp", "repos.json")));
   const plugins = applyConfig(
     packages.map((pkg) => {
       return {
         ...pkg,
+        ...downloads.find((download) => download.name === pkg.name),
         ...dependencies.find((deps) => deps.name === pkg.name),
         ...repos.find((repo) => repo.gitHubSlug === getGitHubSlug(pkg)),
       };
