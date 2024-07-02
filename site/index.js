@@ -41,7 +41,7 @@ const pluginsGrid = new Grid({
     },
     {
       name: html(`<span title="GitHub Stars"># ★</span>`),
-      width: "40px",
+      width: "45px",
       sort: {
         compare: compareWithUndefined,
         // https://github.com/grid-js/gridjs/pull/1366

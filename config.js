@@ -26,12 +26,4 @@ export const excludeRules = [
     reason:
       "this is not a plugin but a Salesforce DX project directory template",
   },
-  {
-    shouldExcludePackage: (pkg) => pkg.gitHubArchived === true,
-    reason: "the GitHub repo is archived",
-  },
-  {
-    shouldExcludePackage: (pkg) => pkg.gitHubFork === true,
-    reason: "the GitHub repo is a fork",
-  },
 ];
