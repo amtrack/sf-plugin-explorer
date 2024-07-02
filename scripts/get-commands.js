@@ -32,7 +32,11 @@ async function getCommands(plugins) {
   const commands = manifests
     .map((manifest) =>
       (manifest?.commands ? Object.values(manifest.commands) : []).map(
-        (cmd) => ({ ...cmd, link: manifest.link })
+        (cmd) => ({
+          ...cmd,
+          description: cmd.summary ?? cmd.description,
+          link: manifest.link,
+        })
       )
     )
     .filter(Boolean)
