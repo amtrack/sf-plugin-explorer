@@ -1,4 +1,4 @@
-import { html, Grid } from "https://unpkg.com/gridjs@6.2.0?module";
+import { html, Grid } from "./vendor/gridjs.module.js";
 
 const defaultGridSettings = {
   sort: true,
