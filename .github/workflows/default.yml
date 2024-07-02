@@ -21,10 +21,12 @@ jobs:
           node-version-file: .node-version
       - name: Install dependencies
         run: yarn install
-      - name: Build
-        run: yarn build
+      - name: Crawl data
+        run: yarn run crawl
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - name: Build
+        run: yarn run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

@@ -14,9 +14,8 @@
     "serve": "14.2.3"
   },
   "scripts": {
-    "build:vendor": "bash scripts/build.sh",
     "crawl": "./scripts/crawl.sh",
-    "build": "./scripts/aggregate.js",
+    "build": "./scripts/aggregate.js && ./scripts/bundle.sh",
     "develop": "yarn run build && serve ./site",
     "start": "serve ./site"
   }
