@@ -40,7 +40,8 @@ async function getCommands(plugins) {
       )
     )
     .filter(Boolean)
-    .flat();
+    .flat()
+    .filter((cmd) => !cmd.hidden);
   return commands;
 }
 
