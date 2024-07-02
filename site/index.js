@@ -80,6 +80,11 @@ const pluginsGrid = new Grid({
       },
     },
     {
+      name: "Last Release",
+      width: "95px",
+      formatter: (cell) => cell?.substring(0, 10),
+    },
+    {
       name: "# Deps",
       width: "60px",
     },
@@ -104,6 +109,7 @@ const pluginsGrid = new Grid({
         pkg.description,
         pkg.authorName,
         pkg.version,
+        pkg.date,
         pkg.dependenciesCount,
         pkg.pluginLibrary,
       ]),

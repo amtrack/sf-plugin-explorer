@@ -13,6 +13,7 @@ export const minPluginFields = [
   "description",
   "authorName",
   "version",
+  "date",
   "pluginLibrary",
   "dependenciesCount",
 ];

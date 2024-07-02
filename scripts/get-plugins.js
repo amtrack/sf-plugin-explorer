@@ -16,6 +16,7 @@ async function searchNpmPackages(query, results = [], size = 250, page = 0) {
       return {
         name: object.package.name,
         version: object.package.version,
+        date: object.package.date,
         description: object.package.description,
         authorName: object.package.author?.name,
         npmLink: object.package.links.npm,
