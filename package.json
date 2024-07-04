@@ -10,7 +10,7 @@
   "devDependencies": {
     "@salesforce-ux/design-system": "2.24.5",
     "gridjs": "6.2.0",
-    "p-limit": "5.0.0",
+    "p-limit": "6.0.0",
     "serve": "14.2.3"
   },
   "scripts": {
