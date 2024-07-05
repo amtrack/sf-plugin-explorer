@@ -190,14 +190,12 @@ function compareWithUndefined(a, b) {
   return a - b;
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".gridjs-search-input").forEach((input) => {
-    input.classList.add("slds-input");
-  });
-  const tabs = document.querySelectorAll('[role="tab"]');
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", changeTabs);
-  });
+document.querySelectorAll(".gridjs-search-input").forEach((input) => {
+  input.classList.add("slds-input");
+});
+const tabs = document.querySelectorAll('[role="tab"]');
+tabs.forEach((tab) => {
+  tab.addEventListener("click", changeTabs);
 });
 
 try {
