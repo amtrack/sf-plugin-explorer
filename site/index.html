@@ -10,6 +10,7 @@
       rel="stylesheet"
     />
     <link href="./grid.css" rel="stylesheet" />
+    <link href="./custom.css" rel="stylesheet" />
   </head>
   <body>
     <div class="slds-context-bar">
@@ -69,7 +70,7 @@
         id="panel-plugins"
         role="tabpanel"
         aria-labelledby="tab-plugins"
-        class="slds-tabs_default__content"
+        class="sfp-tab-content slds-tabs_default__content"
       >
         <div id="wrapper-plugins"></div>
       </div>
@@ -78,7 +79,7 @@
         role="tabpanel"
         aria-labelledby="tab-commands"
         hidden
-        class="slds-tabs_default__content"
+        class="sfp-tab-content slds-tabs_default__content"
       >
         <div id="wrapper-commands"></div>
       </div>
@@ -87,17 +88,17 @@
         role="tabpanel"
         aria-labelledby="tab-about"
         hidden
-        class="slds-tabs_default__content slds-p-horizontal_small"
+        class="sfp-tab-content slds-tabs_default__content slds-p-horizontal_small slds-container_large"
       >
-        <h2 class="slds-m-bottom_small">FAQ</h2>
+        <h1 class="slds-m-bottom_small">FAQ</h1>
         <div class="slds-card meta">
           <ul class="slds-accordion">
-            <slds-faq role="listitem">
+            <slds-faq role="listitem" class="sfp-faq-listitem">
               <details>
                 <summary>
                   How does this compare to the awesome-sfdx-plugins list?
                 </summary>
-                <span>
+                <span class="sfp-faq-listitem-content">
                   The
                   <a href="https://github.com/mshanemc/awesome-sfdx-plugins"
                     >awesome-sfdx-plugins</a
@@ -111,19 +112,19 @@
                 </span>
               </details>
             </slds-faq>
-            <slds-faq role="listitem">
+            <slds-faq role="listitem" class="sfp-faq-listitem">
               <details>
                 <summary>How often is the data updated?</summary>
-                <span>
+                <span class="sfp-faq-listitem-content">
                   The data is updated daily using a scheduled GitHub Action.
                   Last updated: <time></time>
                 </span>
               </details>
             </slds-faq>
-            <slds-faq role="listitem">
+            <slds-faq role="listitem" class="sfp-faq-listitem">
               <details>
                 <summary>Why is plugin xyz not listed?</summary>
-                <span>
+                <span class="sfp-faq-listitem-content">
                   We search the
                   <a
                     href="https://www.npmjs.com/search?q=keywords%3Asf-plugin%2Csfdx-plugin"
@@ -153,10 +154,10 @@
                 </span>
               </details>
             </slds-faq>
-            <slds-faq role="listitem">
+            <slds-faq role="listitem" class="sfp-faq-listitem">
               <details>
                 <summary>Is this open-source?</summary>
-                <span>
+                <span class="sfp-faq-listitem-content">
                   Yes, both the website and the scripts to query the data are
                   available at
                   <a href="https://github.com/amtrack/sf-plugin-explorer"
@@ -170,7 +171,7 @@
         </div>
         <div>
           <div
-            class="slds-scoped-notification slds-media slds-media_center slds-scoped-notification_light"
+            class="slds-scoped-notification slds-media slds-media_center slds-scoped-notification_light sfp-notification"
             role="status"
           >
             <div class="slds-media__figure">
@@ -191,7 +192,10 @@
               <p>
                 SF Plugin Explorer is sponsored by
                 <a title="Hutte" target="_blank" href="https://hutte.io"
-                  >Hutte</a
+                  ><img
+                    id="hutte-logo"
+                    src="./assets/hutte-logo.svg"
+                    alt="hutte.io" /></a
                 >, a DevOps solution for Salesforce Professionals, created by
                 Salesforce Professionals.
               </p>
