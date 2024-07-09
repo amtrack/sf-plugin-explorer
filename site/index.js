@@ -13,7 +13,7 @@ const defaultGridSettings = {
     container: "slds-p-horizontal_small",
     table: "slds-table slds-table_bordered slds-table_fixed-layout",
     td: "slds-truncate",
-    pagination: "slds-button-group",
+    pagination: "slds-button-group sfp-pagination",
     paginationButton: "slds-button slds-button_neutral",
     paginationButtonCurrent: "slds-is-selected",
     search: "slds-p-bottom_small",

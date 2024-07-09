@@ -1,0 +1,43 @@
+h1 {
+  font-size: 1.5rem;
+}
+
+h2 {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.sfp-pagination {
+  display: flex;
+  align-items: center;
+}
+
+.sfp-pagination > div {
+  margin-right: 0.75rem;
+}
+
+.sfp-faq-listitem {
+  cursor: pointer;
+}
+
+.sfp-faq-listitem summary {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
+
+.sfp-faq-listitem details[open] summary {
+  margin-bottom: 0.75rem;
+}
+
+.sfp-faq-listitem-content {
+  font-size: 14px;
+}
+
+.sfp-tab-content {
+  margin: 0 auto;
+}
+
+.sfp-notification #hutte-logo {
+  height: 20px;
+}
