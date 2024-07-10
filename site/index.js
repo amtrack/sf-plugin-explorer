@@ -89,9 +89,9 @@ const pluginsGrid = new Grid({
       formatter: (cell) => cell?.substring(0, 10),
     },
     {
-      name: html(`<span title="Number of package dependencies"># Deps</span>`),
+      name: html(`<span title="Number of package dependencies"># 📦</span>`),
       id: "dependenciesCount",
-      width: "60px",
+      width: "36px",
     },
     {
       name: "Library",
