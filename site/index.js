@@ -21,7 +21,11 @@ const defaultGridSettings = {
   },
 };
 
-const formatWithTitle = (cell) => html(`<div title="${cell}">${cell}</div>`);
+const formatCell = (cell) => formatWithTitle(cell);
+
+const formatWithTitle = (value, title = value) =>
+  html(`<div title="${title}">${value}</div>`);
+
 const pluginsGrid = new Grid({
   ...defaultGridSettings,
   columns: [
@@ -62,31 +66,30 @@ const pluginsGrid = new Grid({
     {
       name: html(`<span title="Weekly NPM downloads"># ⬇</span>`),
       id: "npmDownloads",
-      width: "80px",
+      width: "65px",
     },
     {
       name: "Description",
-      formatter: formatWithTitle,
+      formatter: formatCell,
     },
     {
       name: "Author",
       width: "120px",
-      formatter: formatWithTitle,
+      formatter: formatCell,
     },
-    {
-      name: "Version",
-      width: "70px",
-      sort: {
-        compare: compareSemanticVersions,
-      },
-    },
+    { name: "Version", hidden: true },
     {
       name: html(
-        `<span title="Date of last released version">Last Release</span>`
+        `<span title="Date and Version Number of last released version">Last Release</span>`
       ),
-      id: "date",
-      width: "95px",
-      formatter: (cell) => cell?.substring(0, 10),
+      id: "last-release",
+      width: "150px",
+      formatter: (_, row) => {
+        const val = `${row.cells[8]?.data.substring(0, 10)} (${
+          row.cells[7]?.data
+        })`;
+        return formatCell(val);
+      },
     },
     {
       name: html(`<span title="Number of package dependencies"># 📦</span>`),
@@ -95,8 +98,8 @@ const pluginsGrid = new Grid({
     },
     {
       name: "Library",
-      width: "245px",
-      formatter: formatWithTitle,
+      width: "160px",
+      formatter: (cell) => formatWithTitle(cell?.split("/")?.[1], cell),
       sort: {
         compare: compareSemanticVersions,
       },
@@ -143,11 +146,11 @@ const commandsGrid = new Grid({
     {
       name: "Command",
       width: "255px",
-      formatter: formatWithTitle,
+      formatter: formatCell,
     },
     {
       name: "Description",
-      formatter: formatWithTitle,
+      formatter: formatCell,
     },
     {
       name: "Link",
