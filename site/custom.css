@@ -41,3 +41,10 @@ h2 {
 .sfp-notification #hutte-logo {
   height: 20px;
 }
+
+@media (width <= 1024px) {
+  [data-column-id="plugin-description"],
+  [data-column-id="command-description"] {
+    width: 200px;
+  }
+}
