@@ -70,6 +70,7 @@ const pluginsGrid = new Grid({
     },
     {
       name: "Description",
+      id: "plugin-description",
       formatter: formatCell,
     },
     {
@@ -150,6 +151,7 @@ const commandsGrid = new Grid({
     },
     {
       name: "Description",
+      id: "command-description",
       formatter: formatCell,
     },
     {
