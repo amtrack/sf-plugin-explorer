@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@salesforce-ux/design-system@2.25.2":
-  version "2.25.2"
-  resolved "https://registry.yarnpkg.com/@salesforce-ux/design-system/-/design-system-2.25.2.tgz#bf71073ee8aab99b1ec33cd2d330519a42654c21"
-  integrity sha512-BVPyI1xbPeqKryzX4mFXVwuRj7nIujkLu7+TSHl8OaMKULXwyvgZ85aqDuTgmoKPzkSH1U8PmtTSI8AMDJ2hHg==
+"@salesforce-ux/design-system@2.25.3":
+  version "2.25.3"
+  resolved "https://registry.yarnpkg.com/@salesforce-ux/design-system/-/design-system-2.25.3.tgz#f805180909061c988b1179cf6ebb7189b77cdd49"
+  integrity sha512-OeEvGlij84crJgWCBWUOkuJFvHUISt+EGTfob7qg2xTcDwt+DACxe8MZhrDXcnHqcaBTTmJvgnBPhavwL3y2UA==
 
 "@zeit/schemas@2.36.0":
   version "2.36.0"
