@@ -24,6 +24,7 @@ async function searchNpmPackages(query, results = [], size = 250, page = 0) {
       };
     })
   );
+  console.debug({ results: results.length, total: data.total });
   if (results.length < data.total) {
     return await searchNpmPackages(query, results, size, page + 1);
   }
