@@ -20,13 +20,13 @@ jobs:
         with:
           node-version-file: .node-version
       - name: Install dependencies
-        run: yarn install
+        run: npm ci
       - name: Crawl data
-        run: yarn run crawl
+        run: npm run crawl
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Build
-        run: yarn run build
+        run: npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

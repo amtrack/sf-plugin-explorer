@@ -16,7 +16,7 @@
   "scripts": {
     "crawl": "./scripts/crawl.sh",
     "build": "./scripts/aggregate.js && ./scripts/bundle.sh",
-    "develop": "yarn run build && serve ./site",
+    "develop": "npm run build && serve ./site",
     "start": "serve ./site"
   }
 }
