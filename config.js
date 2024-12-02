@@ -1,6 +1,5 @@
 export const npmSearchQuery = `?text=keywords:'${[
   "sfdx-plugin",
-  "sfdx plugin",
   "sf-plugin",
 ].join(",")}'`;
 
