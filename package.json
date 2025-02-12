@@ -15,7 +15,9 @@
   },
   "scripts": {
     "crawl": "./scripts/crawl.sh",
-    "build": "./scripts/aggregate.js && ./scripts/bundle.sh",
+    "vendor": "./scripts/vendor.sh",
+    "build": "./scripts/aggregate.js",
+    "postinstall": "npm run vendor",
     "develop": "npm run build && serve ./site",
     "start": "serve ./site"
   }
