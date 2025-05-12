@@ -8,7 +8,7 @@
   "author": "Matthias Rolke <mr.amtrack@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@salesforce-ux/design-system": "2.26.2",
+    "@salesforce-ux/design-system": "2.27.1",
     "gridjs": "6.2.0",
     "p-limit": "6.2.0",
     "serve": "14.2.4"
