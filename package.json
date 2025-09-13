@@ -11,7 +11,7 @@
     "@salesforce-ux/design-system": "2.27.1",
     "gridjs": "6.2.0",
     "p-limit": "6.2.0",
-    "serve": "14.2.4"
+    "serve": "14.2.5"
   },
   "scripts": {
     "crawl": "./scripts/crawl.sh",
