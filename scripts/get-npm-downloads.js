@@ -5,12 +5,23 @@ import { join } from "node:path";
 import pLimit from "p-limit";
 
 async function getNpmDownloads(packageNames) {
-  const limit = pLimit(50);
+  const limit = pLimit(1);
   const promises = packageNames.map((packageName) =>
     limit(async () => {
       const res = await fetch(
         `https://api.npmjs.org/downloads/point/last-week/${packageName}`
       );
+      if (!res.ok) {
+        throw new Error(
+          `Fetching NPM download count failed for package ${packageName}`,
+          {
+            cause: new Error(
+              `${res.status} ${res.statusText}: ${await res.text()}`
+            ),
+          }
+        );
+      }
+      await new Promise((resolve) => setTimeout(resolve, 500));
       return await res.json();
     })
   );

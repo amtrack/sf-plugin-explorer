@@ -5,12 +5,23 @@ import { join } from "node:path";
 import pLimit from "p-limit";
 
 async function getPackageDependencies(packageNames) {
-  const limit = pLimit(50);
+  const limit = pLimit(1);
   const promises = packageNames.map((packageName) =>
     limit(async () => {
       const res = await fetch(
         `https://registry.npmjs.org/${packageName}/latest`
       );
+      if (!res.ok) {
+        throw new Error(
+          `Fetching NPM package dependencies failed for package ${packageName}`,
+          {
+            cause: new Error(
+              `${res.status} ${res.statusText}: ${await res.text()}`
+            ),
+          }
+        );
+      }
+      await new Promise((resolve) => setTimeout(resolve, 200));
       return await res.json();
     })
   );
