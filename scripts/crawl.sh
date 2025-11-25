@@ -6,6 +6,5 @@ set -x
 
 ./scripts/get-packages.js
 ./scripts/get-package-dependencies.js
-./scripts/get-npm-downloads.js
 ./scripts/get-repos.js
 ./scripts/get-commands.js
