@@ -5,7 +5,7 @@ import { join } from "node:path";
 import pLimit from "p-limit";
 
 async function getPackageDependencies(packageNames) {
-  const limit = pLimit(50);
+  const limit = pLimit(5);
   const promises = packageNames.map((packageName) =>
     limit(async () => {
       const res = await fetch(
