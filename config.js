@@ -1,6 +1,4 @@
-export const npmSearchQuery = `?text=keywords:${["sfdx-plugin", "sf-plugin"]
-  .map((k) => `'${k}'`)
-  .join(",")}`;
+export const npmSearchQueries = ["sfdx-plugin", "sf-plugin"].map((k) => `?text=keywords:'${k}'`);
 
 export const minPluginFields = [
   "name",

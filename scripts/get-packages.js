@@ -2,7 +2,7 @@
 
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { npmSearchQuery } from "../config.js";
+import { npmSearchQueries } from "../config.js";
 
 async function searchNpmPackages(query, results = [], size = 250, page = 0) {
   const from = size * page;
@@ -35,12 +35,9 @@ async function searchNpmPackages(query, results = [], size = 250, page = 0) {
 }
 
 async function main() {
-  const packages = await searchNpmPackages(npmSearchQuery);
-  await writeFile(
-    join(".tmp", "packages.json"),
-    JSON.stringify(packages),
-    "utf8"
-  );
+  const results = await Promise.all(npmSearchQueries.map((query) => searchNpmPackages(query)));
+  const packages = [...new Map(results.flat().map((p) => [p.name, p])).values()];
+  await writeFile(join(".tmp", "packages.json"), JSON.stringify(packages), "utf8");
 }
 
 main().catch((e) => {
