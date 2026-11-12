@@ -7,17 +7,13 @@ import { applyConfig, getGitHubSlug } from "../utils.js";
 
 function pick(arr, fields) {
   return arr.map((obj) =>
-    Object.fromEntries(
-      Object.entries(obj).filter(([key, _]) => fields.includes(key))
-    )
+    Object.fromEntries(Object.entries(obj).filter(([key, _]) => fields.includes(key))),
   );
 }
 
 async function buildPlugins() {
   const packages = JSON.parse(await readFile(join(".tmp", "packages.json")));
-  const dependencies = JSON.parse(
-    await readFile(join(".tmp", "package-dependencies.json"))
-  );
+  const dependencies = JSON.parse(await readFile(join(".tmp", "package-dependencies.json")));
   const repos = JSON.parse(await readFile(join(".tmp", "repos.json")));
   const plugins = applyConfig(
     packages.map((pkg) => {
@@ -27,24 +23,21 @@ async function buildPlugins() {
         ...repos.find((repo) => repo.gitHubSlug === getGitHubSlug(pkg)),
       };
     }),
-    { excludeRules }
+    { excludeRules },
   );
   const minPlugins = pick(plugins, minPluginFields);
-  await writeFile(
-    join("site", "data", "plugins.min.json"),
-    JSON.stringify(minPlugins),
-    "utf8"
-  );
+  await writeFile(join("site", "data", "plugins.min.json"), JSON.stringify(minPlugins), "utf8");
+  return plugins;
 }
 
-async function buildCommands() {
+async function buildCommands(plugins) {
+  const npmLinks = new Set(plugins.map((p) => p.npmLink));
   const commands = JSON.parse(await readFile(join(".tmp", "commands.json")));
-  const minCommands = pick(commands, minCommandFields);
-  await writeFile(
-    join("site", "data", "commands.min.json"),
-    JSON.stringify(minCommands),
-    "utf8"
+  const minCommands = pick(
+    commands.filter((cmd) => npmLinks.has(cmd.link)),
+    minCommandFields,
   );
+  await writeFile(join("site", "data", "commands.min.json"), JSON.stringify(minCommands), "utf8");
 }
 
 async function buildMeta() {
@@ -52,17 +45,13 @@ async function buildMeta() {
     lastUpdated: new Date().toISOString(),
     source: "https://github.com/amtrack/sf-plugin-explorer",
   };
-  await writeFile(
-    join("site", "data", "meta.json"),
-    JSON.stringify(meta),
-    "utf8"
-  );
+  await writeFile(join("site", "data", "meta.json"), JSON.stringify(meta), "utf8");
 }
 
 async function main() {
   await mkdir(join("site", "data"), { recursive: true });
-  await buildPlugins();
-  await buildCommands();
+  const plugins = await buildPlugins();
+  await buildCommands(plugins);
   await buildMeta();
 }
 
