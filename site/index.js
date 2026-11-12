@@ -26,6 +26,10 @@ const formatCell = (cell) => formatWithTitle(cell);
 const formatWithTitle = (value, title = value) =>
   html(`<div title="${title}">${value}</div>`);
 
+const hideOfficial = document.getElementById("hide-official");
+const showPlugin = ({ name }) =>
+  !(hideOfficial.checked && name?.startsWith("@salesforce/"));
+
 const pluginsGrid = new Grid({
   ...defaultGridSettings,
   columns: [
@@ -109,7 +113,7 @@ const pluginsGrid = new Grid({
   server: {
     url: "data/plugins.min.json",
     then: (data) =>
-      data.map((pkg) => [
+      data.filter(showPlugin).map((pkg) => [
         pkg.name,
         pkg.npmLink,
         pkg.gitHubStargazersCount,
@@ -162,7 +166,9 @@ const commandsGrid = new Grid({
   server: {
     url: "data/commands.min.json",
     then: (data) =>
-      data.map((cmd) => [cmd.pluginName, cmd.id, cmd.description, cmd.link]),
+      data
+        .filter((cmd) => showPlugin({ name: cmd.pluginName }))
+        .map((cmd) => [cmd.pluginName, cmd.id, cmd.description, cmd.link]),
   },
   language: {
     search: {
@@ -195,8 +201,19 @@ function compareWithUndefined(a, b) {
   return a - b;
 }
 
-document.querySelectorAll(".gridjs-search-input").forEach((input) => {
-  input.classList.add("slds-input");
+const styleSearch = () =>
+  document
+    .querySelectorAll(".gridjs-search-input")
+    .forEach((input) => input.classList.add("slds-input"));
+styleSearch();
+// forceRender recreates the search input
+new MutationObserver(styleSearch).observe(document.body, {
+  childList: true,
+  subtree: true,
+});
+hideOfficial.addEventListener("change", () => {
+  pluginsGrid.forceRender();
+  commandsGrid.forceRender();
 });
 const tabs = document.querySelectorAll('[role="tab"]');
 tabs.forEach((tab) => {
